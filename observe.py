@@ -23,7 +23,7 @@ def getserial():
 
   return cpuserial
 
-config = yaml.load(open('test_config.yaml'))
+config = yaml.load(open('config.yaml'))
 
 results = SoapySDR.Device.enumerate()
 for result in results: print(result)
@@ -83,6 +83,7 @@ while True:
 
     sdr.setFrequency(SOAPY_SDR_RX, 0, float(config['center_freq_hz']))
     sdr.setSampleRate(SOAPY_SDR_RX, 0, float(config['sample_rate_hz']))
+    sdr.setBandwidth(SOAPY_SDR_RX, 0, float(config['bandwidth_hz']))
     sdr.setGain(SOAPY_SDR_RX, 0, int(config['gain']))
 
     sdr.activateStream(rxStream) #start streaming
@@ -92,6 +93,7 @@ while True:
 
     sdr.setFrequency(SOAPY_SDR_RX, 0, float(config['blank_freqs_hz'][0]))
     sdr.setSampleRate(SOAPY_SDR_RX, 0, float(config['sample_rate_hz']))
+    sdr.setBandwidth(SOAPY_SDR_RX, 0, float(config['bandwidth_hz']))
     sdr.setGain(SOAPY_SDR_RX, 0, int(config['gain']))
 
     sdr.activateStream(rxStream) #start streaming
