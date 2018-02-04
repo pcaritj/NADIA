@@ -4,7 +4,6 @@ import numpy as np
 import time
 import SoapySDR
 from SoapySDR import * #SOAPY_SDR_ constants
-import tqdm
 import shutil
 import pysftp
 import datetime
