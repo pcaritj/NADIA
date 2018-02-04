@@ -1,4 +1,3 @@
-import idna 
 import yaml
 import pathlib
 import numpy as np
@@ -61,9 +60,8 @@ while True:
             zip_filename = observation_id+'.zip'
             shutil.make_archive(observation_id, 'zip', str(path))
             print ("Uploading %s to %s" % (zip_filename, config['upload_uri']))
+
             #UPLOAD
-            cnopts = pysftp.CnOpts()
-            cnopts.hostkeys = None
             with pysftp.Connection(config['upload_uri'], 
                 username=config['upload_username'], 
                 password=config['upload_password'],
@@ -71,7 +69,7 @@ while True:
                 with sftp.cd(config['upload_path']):
                     sftp.put(zip_filename) 
             # DELETE
-            shutil.rmtree(path)
+            shutil.rmtree(str(path))
             if os.path.isfile(zip_filename):
                 os.unlink(zip_filename)
 
