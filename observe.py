@@ -97,7 +97,7 @@ while True:
     sr = sdr.readStream(rxStream, [buffer], len(buffer))
     np.savez_compressed(str(path.joinpath(interval+"_blank")), buffer)
 
-    with open(path.joinpath("intervals"), "a") as f:
+    with open(str(path.joinpath("intervals")), "a") as f:
         f.write(interval +"\n")
     time.sleep(config['observe_every_secs'])
     interval = str(time.time()-start)
