@@ -75,7 +75,7 @@ while True:
 
         start = time.time()
         observation_id = getserial()+"_"+str(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S.%f"))
-        with open(path.joinpath('params.yaml'), 'w') as outfile:
+        with open(str(path.joinpath('params.yaml')), 'w') as outfile:
             yaml.dump(config, outfile, default_flow_style=False)
 
 
@@ -87,7 +87,7 @@ while True:
     sdr.activateStream(rxStream) #start streaming
     sr = sdr.readStream(rxStream, [buffer], len(buffer))
 
-    np.savez_compressed(path.joinpath(interval), buffer)
+    np.savez_compressed(str(path.joinpath(interval)), buffer)
 
     sdr.setFrequency(SOAPY_SDR_RX, 0, float(config['blank_freqs_hz'][0]))
     sdr.setSampleRate(SOAPY_SDR_RX, 0, float(config['sample_rate_hz']))
@@ -95,7 +95,7 @@ while True:
 
     sdr.activateStream(rxStream) #start streaming
     sr = sdr.readStream(rxStream, [buffer], len(buffer))
-    np.savez_compressed(path.joinpath(interval+"_blank"), buffer)
+    np.savez_compressed(str(path.joinpath(interval+"_blank")), buffer)
 
     with open(path.joinpath("intervals"), "a") as f:
         f.write(interval +"\n")
