@@ -61,9 +61,12 @@ while True:
             shutil.make_archive(observation_id, 'zip', str(path))
             print ("Uploading %s to %s" % (zip_filename, config['upload_uri']))
             #UPLOAD
+            cnopts = pysftp.CnOpts()
+            cnopts.hostkeys = None
             with pysftp.Connection(config['upload_uri'], 
                 username=config['upload_username'], 
-                password=config['upload_password']) as sftp:
+                password=config['upload_password'],
+                cnopts=cnopts) as sftp:
                 with sftp.cd(config['upload_path']):
                     sftp.put(zip_filename) 
             # DELETE
