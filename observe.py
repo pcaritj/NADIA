@@ -1,3 +1,4 @@
+import idna 
 import yaml
 import pathlib
 import numpy as np
