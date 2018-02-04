@@ -64,8 +64,7 @@ while True:
             #UPLOAD
             with pysftp.Connection(config['upload_uri'], 
                 username=config['upload_username'], 
-                password=config['upload_password'],
-                cnopts=cnopts) as sftp:
+                password=config['upload_password']) as sftp:
                 with sftp.cd(config['upload_path']):
                     sftp.put(zip_filename) 
             # DELETE
