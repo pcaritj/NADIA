@@ -58,7 +58,7 @@ while True:
 
             # ZIP
             zip_filename = observation_id+'.zip'
-            shutil.make_archive(str(observation_id), 'zip', path)
+            shutil.make_archive(observation_id, 'zip', str(path))
             print ("Uploading %s to %s" % (zip_filename, config['upload_uri']))
             #UPLOAD
             with pysftp.Connection(config['upload_uri'], 
