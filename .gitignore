@@ -1,3 +1,6 @@
 env/
 .vscode/
 observations/
+notebooks/dat/
+*.pyc
+*-checkpoint.ipynb
