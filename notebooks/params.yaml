@@ -1,0 +1,15 @@
+bandwidth_hz: 5.0000e6
+blank_freqs_hz:
+- 1412405750
+center_freq_hz: 1420405750
+data_dir: observations
+driver: rtlsdr
+gain: 30
+observation_secs: 5
+observe_every_secs: 0.1
+sample_rate_hz: 1.536e6
+upload_every_secs: 300
+upload_password: hydrogen1420
+upload_path: /mnt/NAS/rtdata
+upload_uri: freenas
+upload_username: rt
