@@ -10,7 +10,7 @@ import datetime
 import os
 import git 
 
-observations = 1
+observations = 2
 
 def getserial():
   # Extract serial from cpuinfo file
