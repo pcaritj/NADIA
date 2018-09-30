@@ -112,3 +112,4 @@ for n in range(0,observations):
 print("Updating...")
 g = git.cmd.Git('/home/pi/NADIA')
 g.pull()
+print("Done.")
