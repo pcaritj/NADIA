@@ -109,10 +109,10 @@ for n in range(0,observations):
     interval = str(time.time()-start)
     print(n)
 
-    sdr.deactivateStream(rxStream) #stop streaming
-    sdr.closeStream(rxStream)
-
 print("Updating...")
 g = git.cmd.Git('/home/pi/NADIA')
 g.pull()
 print("Done.")
+
+sdr.deactivateStream(rxStream) #stop streaming
+sdr.closeStream(rxStream)
