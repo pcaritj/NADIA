@@ -8,6 +8,9 @@ import shutil
 import pysftp
 import datetime
 import os
+import git 
+
+observations = 10
 
 def getserial():
   # Extract serial from cpuinfo file
@@ -50,7 +53,7 @@ rxStream = sdr.setupStream(SOAPY_SDR_RX, SOAPY_SDR_CF32)
 
 observation_id = None
 
-while True:
+for n in observations:
     if start is None or time.time()-start > config['upload_every_secs']:
 
         if start is not None:
@@ -104,3 +107,7 @@ while True:
         f.write(interval +"\n")
     time.sleep(config['observe_every_secs'])
     interval = str(time.time()-start)
+
+
+g = git.cmd.Git('/home/pi/NADIA')
+g.pull()
