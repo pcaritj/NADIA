@@ -107,7 +107,8 @@ for n in range(0,observations):
         f.write(interval +"\n")
     time.sleep(config['observe_every_secs'])
     interval = str(time.time()-start)
+    print(n)
 
-
+print("Updating...")
 g = git.cmd.Git('/home/pi/NADIA')
 g.pull()
