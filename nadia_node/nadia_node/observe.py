@@ -14,7 +14,7 @@ from gpiozero import LED
 from time import sleep
 
 noise_diode = LED(21)
-observations = 100
+observations = 10
 
 def getserial():
   # Extract serial from cpuinfo file
@@ -65,7 +65,7 @@ for n in range(0,observations):
             # ZIP
             zip_filename = observation_id+'.zip'
             shutil.make_archive(observation_id, 'zip', str(path))
-            print ("Uploading %s to %s" % (zip_filename, config['upload_uri']))
+            print ("Uploading %s to %s" % (zip_filename, sudo fig['upload_uri']))
 
             #UPLOAD
             with pysftp.Connection(config['upload_uri'], 
