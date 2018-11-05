@@ -9,5 +9,5 @@ upload_every_secs: 300
 gain: 30
 upload_username: rt
 upload_password: hydrogen1420
-upload_uri: freenas
+upload_uri: 192.168.1.112
 upload_path: /mnt/NAS/rtdata
