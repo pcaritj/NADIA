@@ -9,7 +9,11 @@ import pysftp
 import datetime
 import os
 import git 
+import socket
+from gpiozero import LED
+from time import sleep
 
+noise_diode = LED(21)
 observations = 100
 
 def getserial():
@@ -43,11 +47,10 @@ sdr = SoapySDR.Device(args)
 
 
 
-
-
 start = None
 interval = "0"
 intervals = []
+noise_every = 5
 
 rxStream = sdr.setupStream(SOAPY_SDR_RX, SOAPY_SDR_CF32)
 
@@ -78,7 +81,7 @@ for n in range(0,observations):
         pathlib.Path(path).mkdir(parents=True, exist_ok=True)
 
         start = time.time()
-        observation_id = getserial()+"_"+str(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S.%f"))
+        observation_id = socket.gethostname()+"_"+getserial()+"_"+str(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S.%f"))
         with open(str(path.joinpath('params.yaml')), 'w') as outfile:
             yaml.dump(config, outfile, default_flow_style=False)
 
@@ -93,15 +96,16 @@ for n in range(0,observations):
     sr = sdr.readStream(rxStream, [buffer], len(buffer))
 
     np.savez_compressed(str(path.joinpath(interval)), buffer)
+    
+    
+    noise_diode.on()
 
-    sdr.setFrequency(SOAPY_SDR_RX, 0, float(config['blank_freqs_hz'][0]))
-    sdr.setSampleRate(SOAPY_SDR_RX, 0, float(config['sample_rate_hz']))
-    sdr.setBandwidth(SOAPY_SDR_RX, 0, float(config['bandwidth_hz']))
-    sdr.setGain(SOAPY_SDR_RX, 0, int(config['gain']))
+    if n % noise_every == 0:
+        sdr.activateStream(rxStream) #start streaming
+        sr = sdr.readStream(rxStream, [buffer], len(buffer))
+        np.savez_compressed(str(path.joinpath(interval+"_noise")), buffer)
+        noise_diode.off()
 
-    sdr.activateStream(rxStream) #start streaming
-    sr = sdr.readStream(rxStream, [buffer], len(buffer))
-    np.savez_compressed(str(path.joinpath(interval+"_blank")), buffer)
 
     with open(str(path.joinpath("intervals")), "a") as f:
         f.write(interval +"\n")

@@ -1,6 +1,4 @@
 center_freq_hz: 1420405750
-blank_freqs_hz: 
-    - 1412405750
 bandwidth_hz: 5.0000e6
 observation_secs: 5
 sample_rate_hz: 1.536e6
