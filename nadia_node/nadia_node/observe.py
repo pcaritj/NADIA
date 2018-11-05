@@ -58,7 +58,9 @@ observation_id = None
 
 for n in range(0,observations):
     if start is None or time.time()-start > config['upload_every_secs']:
-
+        
+        observation_id = socket.gethostname()+"_"+getserial()+"_"+str(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S.%f"))
+        
         if start is not None:
             # Zip, upload, and clear results
 
@@ -81,7 +83,6 @@ for n in range(0,observations):
         pathlib.Path(path).mkdir(parents=True, exist_ok=True)
 
         start = time.time()
-        observation_id = socket.gethostname()+"_"+getserial()+"_"+str(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S.%f"))
         with open(str(path.joinpath('params.yaml')), 'w') as outfile:
             yaml.dump(config, outfile, default_flow_style=False)
 
