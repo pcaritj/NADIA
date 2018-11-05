@@ -65,7 +65,7 @@ for n in range(0,observations):
             # ZIP
             zip_filename = observation_id+'.zip'
             shutil.make_archive(observation_id, 'zip', str(path))
-            print ("Uploading %s to %s" % (zip_filename, sudo fig['upload_uri']))
+            print ("Uploading %s to %s" % (zip_filename, config['upload_uri']))
 
             #UPLOAD
             with pysftp.Connection(config['upload_uri'], 
