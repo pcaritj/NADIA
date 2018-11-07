@@ -12,9 +12,18 @@ import git
 import socket
 from gpiozero import LED
 from time import sleep
+from boto.s3.connection import S3Connection
+import boto.s3
 
 noise_diode = LED(21)
 observations = 10
+
+def upload(credentials, filename):
+    s3_connection = S3Connection(credentials['keyid'], credentials['secret'])
+    bucket = s3_connection.get_bucket('nadia-radiointerferometer')
+    key = boto.s3.key.Key(bucket, filename)
+    with open(filename) as f:
+        key.send_file(f)
 
 def getserial():
   # Extract serial from cpuinfo file
@@ -31,6 +40,7 @@ def getserial():
   return cpuserial
 
 config = yaml.load(open('config.yaml'))
+credentials = yaml.load(open('credentials.yaml'))
 
 results = SoapySDR.Device.enumerate()
 for result in results: print(result)
@@ -70,11 +80,8 @@ for n in range(0,observations):
             print ("Uploading %s to %s" % (zip_filename, config['upload_uri']))
 
             #UPLOAD
-            with pysftp.Connection(config['upload_uri'], 
-                username=config['upload_username'], 
-                password=config['upload_password']) as sftp:
-                with sftp.cd(config['upload_path']):
-                    sftp.put(zip_filename) 
+            upload(credentials, zip_filename)
+
             # DELETE
             shutil.rmtree(str(path))
             if os.path.isfile(zip_filename):
