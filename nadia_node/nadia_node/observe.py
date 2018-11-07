@@ -22,6 +22,7 @@ def upload(credentials, filename):
     s3_connection = S3Connection(credentials['keyid'], credentials['secret'])
     bucket = s3_connection.get_bucket('nadia-radiointerferometer')
     key = boto.s3.key.Key(bucket, filename)
+    key.set_contents_from_filename(filename)
     with open(filename, "rb") as f:
         key.send_file(f)
 
